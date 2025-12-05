@@ -19,7 +19,6 @@ class AdminUserSeeder extends Seeder
             'role' => 'admin'
         ]);
 
-        // 2. (OPSIONAL) Buat admin baru jika mau
         // User::create([
         //     'name' => 'Second Admin',
         //     'email' => 'admin2@example.com',

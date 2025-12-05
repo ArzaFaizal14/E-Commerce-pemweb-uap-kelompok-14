@@ -12,11 +12,10 @@ class RoleMiddleware
     /**
      * Handle an incoming request.
      *
-     * Usage example in routes:
+     * Contoh penggunaan:
      *  - ->middleware(['auth', 'role:admin'])
      *  - ->middleware(['auth', 'role:member'])
-     *  - ->middleware(['auth', 'role:seller'])
-     *  - ->middleware(['auth', 'role:member,seller'])
+     *  - ->middleware(['auth', 'role:admin,member']) // kalau mau salah satu
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
@@ -29,23 +28,18 @@ class RoleMiddleware
         foreach ($roles as $role) {
             $role = strtolower(trim($role));
 
-            // Admin
+            // Admin: pakai helper isAdmin() dari model User
             if ($role === 'admin' && $user->isAdmin()) {
                 return $next($request);
             }
 
-            // Member / customer / buyer:
-            if (in_array($role, ['member', 'customer', 'buyer'], true) && $user->isMember()) {
-                return $next($request);
-            }
-
-            // Seller
-            if ($role === 'seller' && $user->isSeller()) {
+            // Member: semua user dengan role 'member'
+            if ($role === 'member' && $user->isMember()) {
                 return $next($request);
             }
         }
 
-        // resources/views/errors/403.blade.php
+        // Kalau tidak ada role yang cocok, tampilkan 403
         abort(403);
     }
 }
