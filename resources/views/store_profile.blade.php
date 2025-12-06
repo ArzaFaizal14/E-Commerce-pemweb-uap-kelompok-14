@@ -1,24 +1,69 @@
 <x-app-layout>
     @push('styles')
-        <link rel="stylesheet" href="{{ asset('css/store_registration.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/store_profile.css') }}">
     @endpush
 
     <div class="container">
         <div class="page-header">
-            <h1>Daftar Sebagai Penjual</h1>
-            <p>Mulai berjualan dan kembangkan bisnis Anda</p>
+            <h1>Profil Toko</h1>
+            <p>Kelola informasi toko Anda</p>
         </div>
 
-        @if(session('info'))
-            <div class="alert alert-info">
-                {{ session('info') }}
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
             </div>
         @endif
 
-        <div class="registration-container">
-            <div class="registration-card">
-                <form method="POST" action="{{ route('store.registration.store') }}" enctype="multipart/form-data">
+        <div class="profile-container">
+            <!-- Current Store Info -->
+            <div class="profile-card">
+                <h2>Informasi Toko Saat Ini</h2>
+                
+                <div class="current-logo">
+                    @if($store->logo)
+                        <img 
+                            src="{{ asset('storage/' . $store->logo) }}" 
+                            alt="{{ $store->name }}"
+                        >
+                    @else
+                        <div class="no-logo">Tidak ada logo</div>
+                    @endif
+                </div>
+
+                <div class="info-display">
+                    <div class="info-row">
+                        <span class="label">Nama Toko:</span>
+                        <span class="value">{{ $store->name }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Status:</span>
+                        <span class="value">
+                            @if($store->is_verified)
+                                <span class="badge badge-verified">Terverifikasi</span>
+                            @else
+                                <span class="badge badge-pending">Menunggu Verifikasi</span>
+                            @endif
+                        </span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Kota:</span>
+                        <span class="value">{{ $store->city }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Telepon:</span>
+                        <span class="value">{{ $store->phone }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Form -->
+            <div class="profile-card">
+                <h2>Edit Profil Toko</h2>
+
+                <form method="POST" action="{{ route('store.profile.update') }}" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
 
                     <!-- Store Name -->
                     <div class="form-group">
@@ -27,9 +72,8 @@
                             type="text" 
                             id="name" 
                             name="name" 
-                            value="{{ old('name') }}"
+                            value="{{ old('name', $store->name) }}"
                             required
-                            placeholder="Masukkan nama toko Anda"
                         >
                         @error('name')
                             <span class="error-message">{{ $message }}</span>
@@ -38,21 +82,20 @@
 
                     <!-- Store Logo -->
                     <div class="form-group">
-                        <label for="logo">Logo Toko <span class="required">*</span></label>
+                        <label for="logo">Logo Toko Baru</label>
                         <input 
                             type="file" 
                             id="logo" 
                             name="logo" 
                             accept="image/*"
-                            required
                         >
-                        <small>Format: JPG, PNG, max 2MB</small>
+                        <small>Format: JPG, PNG, max 2MB. Kosongkan jika tidak ingin mengubah logo.</small>
                         @error('logo')
                             <span class="error-message">{{ $message }}</span>
                         @enderror
                     </div>
 
-                    <!-- Store About -->
+                    <!-- About -->
                     <div class="form-group">
                         <label for="about">Tentang Toko <span class="required">*</span></label>
                         <textarea 
@@ -60,8 +103,7 @@
                             name="about" 
                             rows="4" 
                             required
-                            placeholder="Ceritakan tentang toko Anda"
-                        >{{ old('about') }}</textarea>
+                        >{{ old('about', $store->about) }}</textarea>
                         @error('about')
                             <span class="error-message">{{ $message }}</span>
                         @enderror
@@ -74,9 +116,8 @@
                             type="text" 
                             id="phone" 
                             name="phone" 
-                            value="{{ old('phone') }}"
+                            value="{{ old('phone', $store->phone) }}"
                             required
-                            placeholder="Contoh: 08123456789"
                         >
                         @error('phone')
                             <span class="error-message">{{ $message }}</span>
@@ -90,9 +131,8 @@
                             type="text" 
                             id="city" 
                             name="city" 
-                            value="{{ old('city') }}"
+                            value="{{ old('city', $store->city) }}"
                             required
-                            placeholder="Contoh: Jakarta"
                         >
                         @error('city')
                             <span class="error-message">{{ $message }}</span>
@@ -107,8 +147,7 @@
                             name="address" 
                             rows="3" 
                             required
-                            placeholder="Masukkan alamat lengkap toko"
-                        >{{ old('address') }}</textarea>
+                        >{{ old('address', $store->address) }}</textarea>
                         @error('address')
                             <span class="error-message">{{ $message }}</span>
                         @enderror
@@ -121,30 +160,41 @@
                             type="text" 
                             id="postal_code" 
                             name="postal_code" 
-                            value="{{ old('postal_code') }}"
+                            value="{{ old('postal_code', $store->postal_code) }}"
                             required
-                            placeholder="Contoh: 12345"
                         >
                         @error('postal_code')
                             <span class="error-message">{{ $message }}</span>
                         @enderror
                     </div>
 
-                    <!-- Info Box -->
-                    <div class="info-box">
-                        <strong>Catatan:</strong>
-                        <p>Setelah mendaftar, toko Anda akan direview oleh admin. Anda akan dapat mulai berjualan setelah toko disetujui.</p>
-                    </div>
-
                     <!-- Form Actions -->
                     <div class="form-actions">
-                        <a href="{{ route('dashboard') }}" class="btn btn-secondary">
+                        <a href="{{ route('seller.products.index') }}" class="btn btn-secondary">
                             Batal
                         </a>
                         <button type="submit" class="btn btn-primary">
-                            Daftar Toko
+                            Simpan Perubahan
                         </button>
                     </div>
+                </form>
+            </div>
+
+            <!-- Delete Store -->
+            <div class="profile-card danger-zone">
+                <h2>Zona Berbahaya</h2>
+                <p>Menghapus toko akan menghapus semua produk dan data terkait. Tindakan ini tidak dapat dibatalkan.</p>
+                
+                <form 
+                    method="POST" 
+                    action="{{ route('store.profile.destroy') }}"
+                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus toko? Tindakan ini tidak dapat dibatalkan!')"
+                >
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">
+                        Hapus Toko
+                    </button>
                 </form>
             </div>
         </div>

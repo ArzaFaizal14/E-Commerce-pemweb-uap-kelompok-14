@@ -261,10 +261,16 @@
                     {{ __('Beranda') }}
                 </a>
                 <a
-                    href="{{ route('riwayat.belanja') }}"
-                    class="topnav-link {{ request()->routeIs('riwayat.belanja') ? 'is-active' : '' }}"
+                    href="{{ route('transactions.index') }}"
+                    class="topnav-link {{ request()->routeIs('transactions.index') ? 'is-active' : '' }}"
                 >
                     {{ __('Riwayat Belanja') }}
+                </a>
+                <a
+                    href="{{ route('seller.products.index') }}"
+                    class="topnav-link {{ request()->routeIs('seller.products.index') ? 'is-active' : '' }}"
+                >   
+                    {{ __('Tokoku') }}
                 </a>
             </div>
         </div>
@@ -315,10 +321,16 @@
                 {{ __('Dashboard') }}
             </a>
             <a
-                href="{{ route('riwayat.belanja') }}"
-                class="topnav-mobile-link {{ request()->routeIs('riwayat.belanja') ? 'is-active' : '' }}"
+                href="{{ route('transactions.index') }}"
+                class="topnav-mobile-link {{ request()->routeIs('transactions.index') ? 'is-active' : '' }}"
             >
                 {{ __('Riwayat Belanja') }}
+            </a>
+            <a
+                href="{{ route('seller.products.index') }}"
+                class="topnav-mobile-link {{ request()->routeIs('seller.products.index') ? 'is-active' : '' }}"
+            >
+                {{ __('Tokoku') }}
             </a>
         </div>
 
