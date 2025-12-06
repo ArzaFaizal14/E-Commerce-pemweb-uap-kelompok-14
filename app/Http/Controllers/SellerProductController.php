@@ -17,7 +17,22 @@ class SellerProductController extends Controller
      */
     public function index()
     {
-        $store = Auth::user()->store; // sudah dijamin ada & verified oleh middleware
+        $user = Auth::user();
+        $store = $user->store;
+
+        // Double-check: pastikan user punya store
+        if (!$store) {
+            return redirect()
+                ->route('store.registration.create')
+                ->with('warning', 'Silakan daftarkan toko Anda terlebih dahulu.');
+        }
+
+        // Cek apakah toko sudah terverifikasi
+        if (!$store->is_verified) {
+            return redirect()
+                ->route('dashboard')
+                ->with('warning', 'Toko Anda belum diverifikasi. Silakan tunggu verifikasi dari admin.');
+        }
 
         $products = Product::with(['productCategory', 'productImages'])
             ->where('store_id', $store->id)
@@ -32,7 +47,16 @@ class SellerProductController extends Controller
      */
     public function create()
     {
-        $store      = Auth::user()->store;
+        $user = Auth::user();
+        $store = $user->store;
+
+        // Double-check verifikasi
+        if (!$store || !$store->is_verified) {
+            return redirect()
+                ->route('dashboard')
+                ->with('warning', 'Toko Anda belum diverifikasi. Silakan tunggu verifikasi dari admin.');
+        }
+
         $categories = ProductCategory::all();
 
         return view('seller.products.create', compact('store', 'categories'));
@@ -44,6 +68,13 @@ class SellerProductController extends Controller
     public function store(Request $request)
     {
         $store = Auth::user()->store;
+
+        // Double-check verifikasi
+        if (!$store || !$store->is_verified) {
+            return redirect()
+                ->route('dashboard')
+                ->with('warning', 'Toko Anda belum diverifikasi. Silakan tunggu verifikasi dari admin.');
+        }
 
         $validated = $request->validate([
             'name'                => ['required', 'string', 'max:255'],
@@ -84,6 +115,13 @@ class SellerProductController extends Controller
     {
         $store = Auth::user()->store;
 
+        // Double-check verifikasi
+        if (!$store || !$store->is_verified) {
+            return redirect()
+                ->route('dashboard')
+                ->with('warning', 'Toko Anda belum diverifikasi. Silakan tunggu verifikasi dari admin.');
+        }
+
         // ownership check: produk harus milik store ini
         if ($product->store_id !== $store->id) {
             abort(403, 'Anda tidak berhak mengedit produk ini.');
@@ -100,6 +138,13 @@ class SellerProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $store = Auth::user()->store;
+
+        // Double-check verifikasi
+        if (!$store || !$store->is_verified) {
+            return redirect()
+                ->route('dashboard')
+                ->with('warning', 'Toko Anda belum diverifikasi. Silakan tunggu verifikasi dari admin.');
+        }
 
         if ($product->store_id !== $store->id) {
             abort(403, 'Anda tidak berhak mengedit produk ini.');
@@ -129,6 +174,13 @@ class SellerProductController extends Controller
     {
         $store = Auth::user()->store;
 
+        // Double-check verifikasi
+        if (!$store || !$store->is_verified) {
+            return redirect()
+                ->route('dashboard')
+                ->with('warning', 'Toko Anda belum diverifikasi. Silakan tunggu verifikasi dari admin.');
+        }
+
         if ($product->store_id !== $store->id) {
             abort(403, 'Anda tidak berhak menghapus produk ini.');
         }
@@ -154,6 +206,13 @@ class SellerProductController extends Controller
     {
         $store = Auth::user()->store;
 
+        // Double-check verifikasi
+        if (!$store || !$store->is_verified) {
+            return redirect()
+                ->route('dashboard')
+                ->with('warning', 'Toko Anda belum diverifikasi. Silakan tunggu verifikasi dari admin.');
+        }
+
         if ($product->store_id !== $store->id) {
             abort(403, 'Anda tidak berhak mengelola gambar produk ini.');
         }
@@ -169,6 +228,13 @@ class SellerProductController extends Controller
     public function storeImage(Request $request, Product $product)
     {
         $store = Auth::user()->store;
+
+        // Double-check verifikasi
+        if (!$store || !$store->is_verified) {
+            return redirect()
+                ->route('dashboard')
+                ->with('warning', 'Toko Anda belum diverifikasi. Silakan tunggu verifikasi dari admin.');
+        }
 
         if ($product->store_id !== $store->id) {
             abort(403, 'Anda tidak berhak menambah gambar untuk produk ini.');
@@ -198,6 +264,13 @@ class SellerProductController extends Controller
     public function destroyImage(Product $product, ProductImage $image)
     {
         $store = Auth::user()->store;
+
+        // Double-check verifikasi
+        if (!$store || !$store->is_verified) {
+            return redirect()
+                ->route('dashboard')
+                ->with('warning', 'Toko Anda belum diverifikasi. Silakan tunggu verifikasi dari admin.');
+        }
 
         if (
             $product->store_id !== $store->id ||

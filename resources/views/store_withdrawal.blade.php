@@ -33,7 +33,7 @@
             <a href="{{ route('seller.orders.index') }}" class="tab-item">
                 Pesanan
             </a>
-            <a href="{{ route('seller.balance.index') }}" class="tab-item">
+            <a href="{{ route('store.balance.index') }}" class="tab-item">
                 Saldo Toko
             </a>
             <a href="{{ route('seller.withdrawals.index') }}" class="tab-item active">

@@ -1,6 +1,6 @@
 <x-app-layout>
     @push('styles')
-        <link rel="stylesheet" href="{{ asset('css/store_dasboard.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/store_dashboard.css') }}">
     @endpush
 
     <div class="container">
@@ -47,7 +47,7 @@
         <!-- Quick Stats -->
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-icon">📦</div>
+                <div class="stat-icon"></div>
                 <div class="stat-content">
                     <div class="stat-value">{{ $products->total() }}</div>
                     <div class="stat-label">Total Produk</div>
@@ -55,7 +55,7 @@
             </div>
 
             <div class="stat-card">
-                <div class="stat-icon">📊</div>
+                <div class="stat-icon"></div>
                 <div class="stat-content">
                     <div class="stat-value">{{ $products->where('stock', '>', 0)->count() }}</div>
                     <div class="stat-label">Produk Tersedia</div>
@@ -63,7 +63,7 @@
             </div>
 
             <div class="stat-card">
-                <div class="stat-icon">⚠️</div>
+                <div class="stat-icon"></div>
                 <div class="stat-content">
                     <div class="stat-value">{{ $products->where('stock', '<=', 5)->count() }}</div>
                     <div class="stat-label">Stok Menipis</div>
@@ -79,7 +79,7 @@
             <a href="{{ route('seller.orders.index') }}" class="tab-item">
                 Pesanan
             </a>
-            <a href="{{ route('seller.balance.index') }}" class="tab-item">
+            <a href="{{ route('store.balance.index') }}" class="tab-item">
                 Saldo Toko
             </a>
             <a href="{{ route('seller.withdrawals.index') }}" class="tab-item">
@@ -192,9 +192,6 @@
                 <div class="empty-state">
                     <h3>Belum ada produk</h3>
                     <p>Mulai tambahkan produk untuk toko Anda</p>
-                    <a href="{{ route('seller.products.create') }}" class="btn btn-primary">
-                        + Tambah Produk Pertama
-                    </a>
                 </div>
             @endif
         </div>

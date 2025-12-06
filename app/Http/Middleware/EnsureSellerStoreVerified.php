@@ -31,7 +31,7 @@ class EnsureSellerStoreVerified
 
         if (! $store->is_verified) {
             return redirect()
-                ->route('dashboard')
+                ->route('seller.products.index') // misal halaman produk seller
                 ->with('info', 'Toko Anda belum terverifikasi oleh admin.');
         }
 

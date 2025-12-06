@@ -243,35 +243,60 @@
 }
 </style>
 
+@php
+    $isAdmin = optional(Auth::user())->role === 'admin';
+@endphp
+
 <nav class="topnav">
     <div class="topnav-inner">
         <div class="topnav-left">
             {{-- Logo --}}
             <a href="{{ route('dashboard') }}" class="topnav-logo">
-                {{-- Bisa ganti jadi SVG logo kamu sendiri --}}
                 <span>{{ config('app.name', 'Laravel') }}</span>
             </a>
 
             {{-- Link utama (desktop) --}}
             <div class="topnav-links-desktop">
-                <a
-                    href="{{ route('dashboard') }}"
-                    class="topnav-link {{ request()->routeIs('dashboard') ? 'is-active' : '' }}"
-                >
-                    {{ __('Beranda') }}
-                </a>
-                <a
-                    href="{{ route('transactions.index') }}"
-                    class="topnav-link {{ request()->routeIs('transactions.index') ? 'is-active' : '' }}"
-                >
-                    {{ __('Riwayat Belanja') }}
-                </a>
-                <a
-                    href="{{ route('seller.products.index') }}"
-                    class="topnav-link {{ request()->routeIs('seller.products.index') ? 'is-active' : '' }}"
-                >   
-                    {{ __('Tokoku') }}
-                </a>
+                @if($isAdmin)
+                    {{-- Admin hanya lihat Dashboard + Admin --}}
+                    <a
+                        href="{{ route('dashboard') }}"
+                        class="topnav-link {{ request()->routeIs('dashboard') ? 'is-active' : '' }}"
+                    >
+                        {{ __('Beranda') }}
+                    </a>
+                    <a
+                        href="{{ route('admin.stores.verifications.index') }}"
+                        class="topnav-link {{ request()->routeIs('admin.*') ? 'is-active' : '' }}"
+                    >
+                        {{ __('Admin') }}
+                    </a>
+                @else
+                    {{-- User biasa: Dashboard, Riwayat, Toko Saya (tanpa Admin) --}}
+                    <a
+                        href="{{ route('dashboard') }}"
+                        class="topnav-link {{ request()->routeIs('dashboard') ? 'is-active' : '' }}"
+                    >
+                        {{ __('Beranda') }}
+                    </a>
+                    <a
+                        href="{{ route('transactions.index') }}"
+                        class="topnav-link {{ request()->routeIs('transactions.index') ? 'is-active' : '' }}"
+                    >
+                        {{ __('Riwayat Belanja') }}
+                    </a>
+                    <a
+                        href="{{ route('seller.products.index') }}"
+                        class="topnav-link 
+                            {{ request()->routeIs([
+                                'seller.*',
+                                'store.profile.*',
+                                'store.balance.*'
+                            ]) ? 'is-active' : '' }}"
+                    >
+                        {{ __('Toko Saya') }}
+                    </a>
+                @endif
             </div>
         </div>
 
@@ -314,24 +339,46 @@
     {{-- Menu mobile --}}
     <div class="topnav-mobile" id="mobileMenu">
         <div class="topnav-mobile-section">
-            <a
-                href="{{ route('dashboard') }}"
-                class="topnav-mobile-link {{ request()->routeIs('dashboard') ? 'is-active' : '' }}"
-            >
-                {{ __('Dashboard') }}
-            </a>
-            <a
-                href="{{ route('transactions.index') }}"
-                class="topnav-mobile-link {{ request()->routeIs('transactions.index') ? 'is-active' : '' }}"
-            >
-                {{ __('Riwayat Belanja') }}
-            </a>
-            <a
-                href="{{ route('seller.products.index') }}"
-                class="topnav-mobile-link {{ request()->routeIs('seller.products.index') ? 'is-active' : '' }}"
-            >
-                {{ __('Tokoku') }}
-            </a>
+            @if($isAdmin)
+                {{-- Admin: Dashboard + Admin --}}
+                <a
+                    href="{{ route('dashboard') }}"
+                    class="topnav-mobile-link {{ request()->routeIs('dashboard') ? 'is-active' : '' }}"
+                >
+                    {{ __('Dashboard') }}
+                </a>
+                <a
+                    href="{{ route('admin.stores.verifications.index') }}"
+                    class="topnav-link {{ request()->routeIs('admin.*') ? 'is-active' : '' }}"
+                >
+                    {{ __('Admin') }}
+                </a>
+            @else
+                {{-- User biasa: Dashboard, Riwayat, Toko Saya --}}
+                <a
+                    href="{{ route('dashboard') }}"
+                    class="topnav-mobile-link {{ request()->routeIs('dashboard') ? 'is-active' : '' }}"
+                >
+                    {{ __('Dashboard') }}
+                </a>
+                <a
+                    href="{{ route('transactions.index') }}"
+                    class="topnav-mobile-link {{ request()->routeIs('transactions.index') ? 'is-active' : '' }}"
+                >
+                    {{ __('Riwayat Belanja') }}
+                </a>
+                <a
+                    href="{{ route('seller.products.index') }}"
+                    class="topnav-mobile-link 
+                        {{ request()->routeIs([
+                            'seller.*',
+                            'store.profile.*',
+                            'store.balance.*'
+                        ]) ? 'is-active' : '' }}"
+                >
+                    {{ __('Toko Saya') }}
+                </a>
+            @endif
         </div>
 
         <div class="topnav-mobile-section topnav-mobile-user">

@@ -182,8 +182,7 @@
 
             <!-- Delete Store -->
             <div class="profile-card danger-zone">
-                <h2>Zona Berbahaya</h2>
-                <p>Menghapus toko akan menghapus semua produk dan data terkait. Tindakan ini tidak dapat dibatalkan.</p>
+                <h2>Menghapus toko akan menghapus semua produk dan data terkait. Tindakan ini tidak dapat dibatalkan.</h2>
                 
                 <form 
                     method="POST" 

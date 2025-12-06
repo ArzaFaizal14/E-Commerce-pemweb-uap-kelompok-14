@@ -16,14 +16,14 @@ class AdminManagementController extends Controller
     public function index()
     {
         $users = User::with('store')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('created_at', 'asc')
             ->paginate(15, ['*'], 'users_page');
 
         $stores = Store::with('user')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('created_at', 'asc')
             ->paginate(15, ['*'], 'stores_page');
 
-        return view('user_store_management', compact('users', 'stores'));
+        return view('admin.management', compact('users', 'stores'));
     }
 
     /**

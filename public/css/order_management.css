@@ -1,0 +1,441 @@
+:root {
+    --bg-page: #f5f5f7;
+    --bg-card: #ffffff;
+    --bg-subtle: #f3f4f6;
+    --border-subtle: #e5e7eb;
+    --border-strong: #d1d5db;
+    --text-main: #111827;
+    --text-muted: #6b7280;
+    --text-soft: #9ca3af;
+    --primary: #111827;
+    --accent: #2563eb;
+    --success: #16a34a;
+    --warning: #f59e0b;
+    --danger: #dc2626;
+    --radius-lg: 18px;
+    --radius-md: 12px;
+    --radius-pill: 999px;
+    --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.08);
+}
+
+body {
+    background: var(--bg-page);
+}
+
+.container {
+    max-width: 1120px;
+    margin: 2.5rem auto 3.5rem;
+    padding: 0 1.5rem 3rem;
+}
+
+.seller-tabs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1.5rem 0 1.75rem;
+    padding: 0.35rem;
+    background: var(--bg-subtle);
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border-subtle);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.seller-tabs::-webkit-scrollbar {
+    height: 4px;
+}
+.seller-tabs::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 999px;
+}
+
+.seller-tabs .tab-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 1.2rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    white-space: nowrap;
+    border: 1px solid transparent;
+    background: transparent;
+    transition: all 0.18s ease;
+}
+
+.seller-tabs .tab-item:hover {
+    background: #e5e7eb;
+    color: var(--text-main);
+}
+
+.seller-tabs .tab-item.active {
+    background: var(--bg-card);
+    color: var(--text-main);
+    border-color: var(--border-subtle);
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.12);
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 1.1rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid transparent;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.18s ease;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: #f9fafb;
+    border-color: var(--primary);
+}
+.btn-primary:hover {
+    background: #020617;
+}
+
+.btn-secondary {
+    background: #ffffff;
+    color: var(--text-main);
+    border-color: var(--border-strong);
+}
+.btn-secondary:hover {
+    background: #f9fafb;
+}
+
+.btn-sm {
+    padding: 0.45rem 0.95rem;
+    font-size: 0.8rem;
+}
+
+.alert {
+    margin-top: 1rem;
+    padding: 0.9rem 1rem;
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.alert-success {
+    background: #ecfdf3;
+    border-color: #bbf7d0;
+    color: #166534;
+}
+
+.page-header {
+    margin-bottom: 0.75rem;
+}
+
+.page-header h1 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 0.25rem;
+}
+
+.page-header p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.orders-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.order-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 1.2rem 1.3rem;
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-soft);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.8rem;
+}
+
+.order-info h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 0.2rem;
+}
+
+.order-date {
+    font-size: 0.8rem;
+    color: var(--text-soft);
+}
+
+.order-status {
+    text-align: right;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.7rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.78rem;
+    font-weight: 500;
+}
+
+.status-pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-processed {
+    background: #e0f2fe;
+    color: #075985;
+}
+
+.status-shipped {
+    background: #eef2ff;
+    color: #3730a3;
+}
+
+.status-completed {
+    background: #ecfdf3;
+    color: #166534;
+}
+
+.status-cancelled {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.buyer-info {
+    font-size: 0.9rem;
+    color: var(--text-main);
+    margin-bottom: 0.6rem;
+}
+
+.order-items {
+    border-radius: var(--radius-md);
+    background: var(--bg-subtle);
+    padding: 0.7rem 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    margin-bottom: 0.9rem;
+}
+
+.order-item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 0.6rem;
+    align-items: center;
+}
+
+.item-image img {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 1px solid var(--border-subtle);
+    background: #e5e7eb;
+}
+
+.item-info h4 {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.item-meta {
+    font-size: 0.8rem;
+    color: var(--text-soft);
+}
+
+.item-subtotal {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.shipping-info {
+    margin-top: 0.7rem;
+    padding-top: 0.7rem;
+    border-top: 1px dashed var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.85rem;
+}
+
+.shipping-row {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.shipping-row .label {
+    color: var(--text-soft);
+    min-width: 130px;
+}
+
+.shipping-row .value {
+    color: var(--text-main);
+}
+
+.tracking-number {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.82rem;
+}
+
+.order-total {
+    margin-top: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.order-total .label {
+    color: var(--text-soft);
+}
+
+.order-total .value {
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.order-actions {
+    margin-top: 0.9rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.pagination-wrapper {
+    margin-top: 1.3rem;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.35);
+    justify-content: center;
+    align-items: center;
+    z-index: 40;
+    padding: 1rem;
+}
+
+.modal-content {
+    width: 100%;
+    max-width: 420px;
+    background: var(--bg-card);
+    border-radius: 18px;
+    box-shadow: 0 24px 64px rgba(15, 23, 42, 0.25);
+    border: 1px solid var(--border-subtle);
+    overflow: hidden;
+}
+
+.modal-header {
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-header h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.modal-close {
+    cursor: pointer;
+    font-size: 1.4rem;
+    color: var(--text-soft);
+}
+
+.modal-body {
+    padding: 1rem 1.2rem 0.2rem;
+}
+
+.modal-footer {
+    padding: 0.9rem 1.2rem 1.1rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 0.8rem;
+}
+
+.form-group label {
+    font-size: 0.85rem;
+    color: var(--text-main);
+}
+
+.required {
+    color: var(--danger);
+}
+
+.form-group input[type="text"] {
+    border-radius: 999px;
+    border: 1px solid var(--border-strong);
+    padding: 0.55rem 0.9rem;
+    font-size: 0.9rem;
+    outline: none;
+    background: #f9fafb;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.form-group input[type="text"]:focus {
+    border-color: var(--accent);
+    background: #ffffff;
+}
+
+.empty-state {
+    padding: 2.1rem 1.5rem;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.empty-state h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 0.3rem;
+}
+
+@media (max-width: 768px) {
+    .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .order-items {
+        padding: 0.6rem;
+    }
+
+    .order-item {
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto auto;
+    }
+
+    .item-subtotal {
+        grid-column: 1 / -1;
+        justify-self: flex-end;
+    }
+}

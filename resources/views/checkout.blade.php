@@ -9,6 +9,17 @@
             <p>Lengkapi informasi pengiriman Anda</p>
         </div>
 
+        {{-- Display validation errors --}}
+        @if($errors->any())
+            <div class="alert alert-error">
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="checkout-container">
             <!-- Product Summary -->
             <div class="checkout-section">
@@ -41,6 +52,10 @@
 
                     <div class="product-checkout-details">
                         <div class="detail-row">
+                            <span>Berat:</span>
+                            <span>{{ $product->weight }} gram</span>
+                        </div>
+                        <div class="detail-row">
                             <span>Jumlah:</span>
                             <span>{{ $quantity }}</span>
                         </div>
@@ -70,18 +85,76 @@
                                 name="address" 
                                 rows="3" 
                                 required
-                                placeholder="Masukkan alamat lengkap pengiriman"
+                                placeholder="Masukkan alamat lengkap pengiriman (nama jalan, nomor rumah, RT/RW)"
                             >{{ old('address') }}</textarea>
                             @error('address')
                                 <span class="error-message">{{ $message }}</span>
                             @enderror
                         </div>
 
+                        <!-- City -->
+                        <div class="form-group">
+                            <label for="city">Kota <span class="required">*</span></label>
+                            <input 
+                                type="text" 
+                                id="city" 
+                                name="city" 
+                                value="{{ old('city') }}"
+                                required
+                                placeholder="Contoh: Surabaya"
+                            >
+                            @error('city')
+                                <span class="error-message">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <!-- Postal Code -->
+                        <div class="form-group">
+                            <label for="postal_code">Kode Pos <span class="required">*</span></label>
+                            <input 
+                                type="text" 
+                                id="postal_code" 
+                                name="postal_code" 
+                                value="{{ old('postal_code') }}"
+                                required
+                                placeholder="Contoh: 60119"
+                            >
+                            @error('postal_code')
+                                <span class="error-message">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <!-- Shipping (Courier) -->
+                        <div class="form-group">
+                            <label for="shipping">Kurir <span class="required">*</span></label>
+                            <select id="shipping" name="shipping" required>
+                                <option value="">Pilih kurir pengiriman</option>
+                                <option value="JNE" {{ old('shipping') == 'JNE' ? 'selected' : '' }}>
+                                    JNE
+                                </option>
+                                <option value="J&T" {{ old('shipping') == 'J&T' ? 'selected' : '' }}>
+                                    J&T Express
+                                </option>
+                                <option value="SiCepat" {{ old('shipping') == 'SiCepat' ? 'selected' : '' }}>
+                                    SiCepat
+                                </option>
+                                <option value="AnterAja" {{ old('shipping') == 'AnterAja' ? 'selected' : '' }}>
+                                    AnterAja
+                                </option>
+                                <option value="Pos Indonesia" {{ old('shipping') == 'Pos Indonesia' ? 'selected' : '' }}>
+                                    Pos Indonesia
+                                </option>
+                            </select>
+                            @error('shipping')
+                                <span class="error-message">{{ $message }}</span>
+                            @enderror
+                        </div>
+
                         <!-- Shipping Type -->
                         <div class="form-group">
-                            <label for="shipping_type">Jenis Pengiriman <span class="required">*</span></label>
+                            <label for="shipping_type">Jenis Layanan <span class="required">*</span></label>
                             <select id="shipping_type" name="shipping_type" required>
-                                <option value="">Pilih jenis pengiriman</option>
+                                <option value="">Pilih jenis layanan</option>
                                 <option value="regular" {{ old('shipping_type') == 'regular' ? 'selected' : '' }}>
                                     Regular (3-5 hari)
                                 </option>
@@ -112,7 +185,7 @@
                             @error('shipping_cost')
                                 <span class="error-message">{{ $message }}</span>
                             @enderror
-                            <small>Masukkan biaya pengiriman (opsional)</small>
+                            <small>Masukkan biaya pengiriman</small>
                         </div>
 
                         <!-- Total Summary -->

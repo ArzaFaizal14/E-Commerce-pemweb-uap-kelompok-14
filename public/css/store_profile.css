@@ -9,8 +9,8 @@
     --text-soft: #9ca3af;
     --primary: #111827;
     --accent: #2563eb;
+    --success: #16a34a;
     --danger: #dc2626;
-    --radius-xl: 22px;
     --radius-lg: 18px;
     --radius-md: 12px;
     --radius-pill: 999px;
@@ -44,7 +44,8 @@ body {
 }
 
 .alert {
-    margin: 0.6rem 0 1rem;
+    margin-top: 0.8rem;
+    margin-bottom: 1rem;
     padding: 0.9rem 1rem;
     border-radius: var(--radius-md);
     font-size: 0.9rem;
@@ -52,107 +53,108 @@ body {
     border-style: solid;
 }
 
-.alert-error {
-    background: #fef2f2;
-    border-color: #fecaca;
-    color: #b91c1c;
+.alert-success {
+    background: #ecfdf3;
+    border-color: #bbf7d0;
+    color: #166534;
 }
 
-.alert-error ul {
-    padding-left: 1.1rem;
-    margin: 0.2rem 0 0;
-    font-size: 0.86rem;
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.65rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.75rem;
+    font-weight: 500;
 }
 
-.alert-error li {
-    margin-bottom: 0.1rem;
+.badge-verified {
+    background: #ecfdf3;
+    color: #15803d;
 }
 
-.checkout-container {
+.badge-pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.profile-container {
     display: grid;
-    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     gap: 1.2rem;
-    align-items: flex-start;
-    margin-top: 0.4rem;
+    margin-top: 0.5rem;
 }
 
-.checkout-section {
-    width: 100%;
-}
-
-.section-card {
+.profile-card {
     background: var(--bg-card);
-    border-radius: var(--radius-xl);
-    padding: 1.3rem 1.4rem 1.5rem;
+    border-radius: var(--radius-lg);
+    padding: 1.3rem 1.4rem;
     border: 1px solid var(--border-subtle);
     box-shadow: var(--shadow-soft);
 }
 
-.section-card h2 {
+.profile-card h2 {
     font-size: 1rem;
     font-weight: 600;
     color: var(--text-main);
     margin-bottom: 0.8rem;
 }
 
-.product-checkout-item {
+.current-logo {
+    margin-bottom: 1rem;
     display: flex;
-    gap: 0.8rem;
     align-items: center;
-    margin-bottom: 0.9rem;
+    justify-content: center;
 }
 
-.product-checkout-image img {
-    width: 70px;
-    height: 70px;
-    border-radius: 18px;
+.current-logo img {
+    width: 90px;
+    height: 90px;
+    border-radius: 24px;
     object-fit: cover;
     border: 1px solid var(--border-subtle);
     background: var(--bg-subtle);
 }
 
-.product-checkout-info h3 {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--text-main);
-    margin-bottom: 0.1rem;
-}
-
-.product-checkout-info p {
-    font-size: 0.82rem;
+.no-logo {
+    width: 90px;
+    height: 90px;
+    border-radius: 24px;
+    border: 1px dashed var(--border-strong);
+    background: var(--bg-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
     color: var(--text-soft);
-    margin-bottom: 0.3rem;
 }
 
-.product-checkout-price {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--primary);
-}
-
-.product-checkout-details {
-    margin-top: 0.5rem;
-    padding-top: 0.6rem;
-    border-top: 1px solid #f3f4f6;
+.info-display {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
     font-size: 0.88rem;
 }
 
-.detail-row {
+.info-row {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.25rem;
-    color: var(--text-main);
+    gap: 0.4rem;
 }
 
-.checkout-form {
-    margin-top: 0.2rem;
+.info-row .label {
+    color: var(--text-soft);
+    min-width: 95px;
+}
+
+.info-row .value {
+    color: var(--text-main);
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
-    margin-bottom: 0.95rem;
+    margin-bottom: 0.9rem;
 }
 
 .form-group label {
@@ -165,10 +167,9 @@ body {
     color: var(--danger);
 }
 
-.form-group textarea,
-.form-group select,
-.form-group input[type="number"],
-.form-group input[type="text"] {
+.form-group input[type="text"],
+.form-group input[type="file"],
+.form-group textarea {
     font-size: 0.9rem;
     color: var(--text-main);
     border-radius: 999px;
@@ -181,16 +182,18 @@ body {
 
 .form-group textarea {
     border-radius: 16px;
-    min-height: 90px;
+    min-height: 100px;
     resize: vertical;
     padding-top: 0.7rem;
     padding-bottom: 0.7rem;
 }
 
-.form-group textarea:focus,
-.form-group select:focus,
-.form-group input[type="number"]:focus,
-.form-group input[type="text"]:focus {
+.form-group input[type="file"] {
+    padding: 0.35rem 0.7rem;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
     border-color: var(--accent);
     background: #ffffff;
     box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.08);
@@ -199,43 +202,11 @@ body {
 .form-group small {
     font-size: 0.78rem;
     color: var(--text-soft);
-    margin-top: 0.1rem;
 }
 
 .error-message {
     font-size: 0.78rem;
     color: var(--danger);
-}
-
-
-.order-summary {
-    margin-top: 1rem;
-    padding: 0.9rem 1rem;
-    border-radius: var(--radius-lg);
-    background: var(--bg-subtle);
-    border: 1px solid var(--border-subtle);
-    font-size: 0.88rem;
-}
-
-.summary-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.25rem;
-    color: var(--text-main);
-}
-
-.summary-total {
-    margin-top: 0.3rem;
-    padding-top: 0.4rem;
-    border-top: 1px dashed var(--border-subtle);
-}
-
-.summary-total span:first-child {
-    font-weight: 500;
-}
-
-.summary-total span:last-child {
-    font-weight: 600;
 }
 
 .btn {
@@ -273,26 +244,51 @@ body {
     background: #f9fafb;
 }
 
+.btn-danger {
+    background: #fee2e2;
+    color: #b91c1c;
+    border-color: #fecaca;
+}
+
+.btn-danger:hover {
+    background: #fecaca;
+    border-color: #fca5a5;
+}
+
 .form-actions {
-    margin-top: 1.2rem;
+    margin-top: 1.1rem;
     display: flex;
     justify-content: flex-end;
     gap: 0.6rem;
 }
 
-@media (max-width: 900px) {
-    .checkout-container {
-        grid-template-columns: 1fr;
-    }
+.danger-zone {
+    grid-column: 1 / -1;
+    margin-top: 0.2rem;
+    border-color: #fecaca;
+    background: #fef2f2;
+}
 
-    .section-card {
-        padding: 1.2rem 1.2rem 1.4rem;
+.danger-zone h2 {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #b91c1c;
+    margin-bottom: 0.8rem;
+}
+
+@media (max-width: 900px) {
+    .profile-container {
+        grid-template-columns: 1fr;
     }
 }
 
 @media (max-width: 640px) {
     .container {
         padding: 0 1rem 2.5rem;
+    }
+
+    .profile-card {
+        padding: 1.1rem 1.1rem 1.3rem;
     }
 
     .form-actions {

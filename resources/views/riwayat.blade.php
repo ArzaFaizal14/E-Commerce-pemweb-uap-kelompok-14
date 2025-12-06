@@ -1,6 +1,6 @@
 <x-app-layout>
     @push('styles')
-        <link rel="stylesheet" href="{{ asset('css/riwayat.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/riwayat_belanja.css') }}">
     @endpush
 
     <div class="container">
@@ -118,16 +118,6 @@
                                 <span>Total:</span>
                                 <span>Rp {{ number_format($transaction->total_price, 0, ',', '.') }}</span>
                             </div>
-                        </div>
-
-                        <!-- Transaction Actions -->
-                        <div class="transaction-actions">
-                            <a 
-                                href="{{ route('transactions.show', $transaction->transaction_code) }}" 
-                                class="btn btn-secondary"
-                            >
-                                Lihat Detail
-                            </a>
                         </div>
                     </div>
                 @endforeach

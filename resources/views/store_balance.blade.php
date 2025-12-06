@@ -17,7 +17,7 @@
             <a href="{{ route('seller.orders.index') }}" class="tab-item">
                 Pesanan
             </a>
-            <a href="{{ route('seller.balance.index') }}" class="tab-item active">
+            <a href="{{ route('store.balance.index') }}" class="tab-item active">
                 Saldo Toko
             </a>
             <a href="{{ route('seller.withdrawals.index') }}" class="tab-item">
@@ -46,7 +46,7 @@
     <!-- Filter Section -->
     <div class="filter-section">
         <h2>Riwayat Saldo</h2>
-        <form method="GET" action="{{ route('seller.balance.index') }}" class="filter-form">
+        <form method="GET" action="{{ route('store.balance.index') }}" class="filter-form">
             <select name="type" onchange="this.form.submit()">
                 <option value="">Semua Transaksi</option>
                 <option value="income" {{ request('type') === 'income' ? 'selected' : '' }}>

@@ -15,6 +15,7 @@
             </div>
         @endif
 
+
         <!-- Navigation Tabs -->
         <div class="seller-tabs">
             <a href="{{ route('seller.products.index') }}" class="tab-item">
@@ -23,7 +24,7 @@
             <a href="{{ route('seller.orders.index') }}" class="tab-item active">
                 Pesanan
             </a>
-            <a href="{{ route('seller.balance.index') }}" class="tab-item">
+            <a href="{{ route('store.balance.index') }}" class="tab-item">
                 Saldo Toko
             </a>
             <a href="{{ route('seller.withdrawals.index') }}" class="tab-item">

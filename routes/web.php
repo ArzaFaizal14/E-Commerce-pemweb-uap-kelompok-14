@@ -44,10 +44,16 @@ require __DIR__.'/auth.php';
 */
 
 Route::middleware('auth')->group(function () {
+    // Dashboard member → list produk
+    Route::get('/dashboard', [ProductController::class, 'index'])
+        ->name('dashboard');
+    
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit');
+    
     Route::patch('/profile', [ProfileController::class, 'update'])
         ->name('profile.update');
+    
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
 });
@@ -60,14 +66,12 @@ Route::middleware('auth')->group(function () {
 */
 
 Route::middleware(['auth', 'role:member'])->group(function () {
-
-    // Dashboard member → list produk
-    Route::get('/dashboard', [ProductController::class, 'index'])
-        ->name('dashboard');
-    
     // Detail produk
     Route::get('/products/{slug}', [ProductController::class, 'show'])
         ->name('products.show');
+    // Dashboard toko (list produk milik seller)
+        Route::get('/seller/products', [SellerProductController::class, 'index'])
+            ->name('seller.products.index');
 
     /*
     |--------------------------------------------------------------------------
@@ -81,12 +85,20 @@ Route::middleware(['auth', 'role:member'])->group(function () {
     Route::post('/store/registration', [StoreRegistrationController::class, 'store'])
         ->name('store.registration.store');
 
-    // Buyer Profile Creation (member yang mau beli)
+    // Buyer Profile Creation & Update
     Route::get('/buyer/profile/create', [BuyerProfileController::class, 'create'])
         ->name('buyer.profile.create');
     Route::post('/buyer/profile', [BuyerProfileController::class, 'store'])
         ->name('buyer.profile.store');
-
+    
+    // Update buyer profile (untuk yang sudah punya buyer profile)
+    Route::patch('/buyer/profile', [BuyerProfileController::class, 'update'])
+        ->name('buyer.profile.update');
+    
+    // Delete buyer profile picture
+    Route::delete('/buyer/profile/picture', [BuyerProfileController::class, 'deleteProfilePicture'])
+        ->name('buyer.profile.picture.delete');
+    
     /*
     |--------------------------------------------------------------------------
     | BUYER AREA (harus punya Buyer profile) 
@@ -119,10 +131,6 @@ Route::middleware(['auth', 'role:member'])->group(function () {
     */
 
     Route::middleware('seller.verified')->group(function () {
-
-        // Dashboard toko (list produk milik seller)
-        Route::get('/seller/products', [SellerProductController::class, 'index'])
-            ->name('seller.products.index');
 
         // Profil toko
         Route::get('/seller/store/profile', [StoreProfileController::class, 'edit'])
@@ -201,7 +209,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/stores/verifications', [StoreVerificationController::class, 'index'])
         ->name('admin.stores.verifications.index');
 
-    Route::patch('/admin/stores/{store}/verify', [StoreVerificationController::class, 'verify'])
+    Route::put('/admin/stores/{store}/verify', [StoreVerificationController::class, 'verify'])
         ->name('admin.stores.verifications.verify');
 
     Route::delete('/admin/stores/{store}/reject', [StoreVerificationController::class, 'reject'])

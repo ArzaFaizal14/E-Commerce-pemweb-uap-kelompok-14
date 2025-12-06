@@ -85,7 +85,7 @@
                             <div class="store-actions">
                                 <form 
                                     method="POST" 
-                                    action="{{ route('admin.stores.verify', $store->id) }}"
+                                    action="{{ route('admin.stores.verifications.verify', $store->id) }}"
                                     style="display: inline;"
                                 >
                                     @csrf
@@ -97,7 +97,7 @@
 
                                 <form 
                                     method="POST" 
-                                    action="{{ route('admin.stores.reject', $store->id) }}"
+                                    action="{{ route('admin.stores.verifications.reject', $store->id) }}"
                                     onsubmit="return confirm('Yakin ingin menolak toko ini? Toko akan dihapus.')"
                                     style="display: inline;"
                                 >

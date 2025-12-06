@@ -24,7 +24,7 @@ class StoreVerificationController extends Controller
             ->latest()
             ->paginate(10, ['*'], 'verified_page');
 
-        return view('store_verification', compact('pendingStores', 'verifiedStores'));
+        return view('admin.store_verification', compact('pendingStores', 'verifiedStores'));
     }
 
     /**

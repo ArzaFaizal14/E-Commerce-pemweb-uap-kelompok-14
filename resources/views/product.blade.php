@@ -114,7 +114,7 @@
                 @if($product->stock > 0)
                     <div class="product-actions">
                         <a 
-                            href="{{ route('checkout.show', $product->id) }}" 
+                            href="{{ route('checkout.create', $product->id) }}" 
                             class="btn btn-primary btn-buy"
                         >
                             Beli Sekarang
