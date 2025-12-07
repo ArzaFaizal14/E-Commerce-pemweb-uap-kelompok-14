@@ -32,7 +32,7 @@
 
                     <!-- Category -->
                     <div class="form-group">
-                        <label for="product_category_id">Kategori <span class="required">(Jika belum ada kategori yang diinginkan, silahkan kembali dan masuk ke halaman Kelola Kategori) *</span></label>
+                        <label for="product_category_id">Kategori <span class="required">(Jika belum ada kategori yang diinginkan, silahkan kembali dan masuk ke halaman Kategori Produk) *</span></label>
                         <select id="product_category_id" name="product_category_id" required>
                             <option value="">Pilih Kategori</option>
                             @foreach($categories as $category)

@@ -65,9 +65,6 @@
                             id="amount" 
                             name="amount" 
                             value="{{ old('amount') }}"
-                            min="1"
-                            max="{{ $balance->balance }}"
-                            step="1000"
                             required
                             placeholder="Masukkan jumlah yang ingin ditarik"
                         >
@@ -86,7 +83,7 @@
                             name="bank_account_name" 
                             value="{{ old('bank_account_name', $lastWithdrawal->bank_account_name ?? '') }}"
                             required
-                            placeholder="Contoh: John Doe"
+                            placeholder="Contoh: Firman Maulana"
                         >
                         @error('bank_account_name')
                             <span class="error-message">{{ $message }}</span>

@@ -21,7 +21,7 @@
         @endif
 
         <div class="checkout-container">
-            <!-- Product Summary -->
+            <!-- ringkasan produk -->
             <div class="checkout-section">
                 <div class="section-card">
                     <h2>Ringkasan Produk</h2>
@@ -45,39 +45,45 @@
                             <h3>{{ $product->name }}</h3>
                             <p>{{ $product->productCategory->name ?? 'Tanpa Kategori' }}</p>
                             <div class="product-checkout-price">
-                                Rp {{ number_format($product->price, 0, ',', '.') }}
+                                Rp {{ number_format($product->price, 0, ',', '.') }} / pcs
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="product-checkout-details">
-                        <div class="detail-row">
-                            <span>Berat:</span>
-                            <span>{{ $product->weight }} gram</span>
-                        </div>
-                        <div class="detail-row">
-                            <span>Jumlah:</span>
-                            <span>{{ $quantity }}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span>Subtotal:</span>
-                            <span>Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+                            <div class="product-meta">
+                                <span>Berat: {{ $product->weight }} gram</span>
+                                <span>Stok: {{ $product->stock }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Checkout Form -->
+            <!-- form checkout -->
             <div class="checkout-section">
                 <div class="section-card">
                     <h2>Informasi Pengiriman</h2>
 
-                    <form method="POST" action="{{ route('checkout.store', $product->id) }}" class="checkout-form">
+                    <form method="POST" action="{{ route('checkout.store', $product->id) }}" class="checkout-form" id="checkoutForm">
                         @csrf
 
-                        <input type="hidden" name="quantity" value="{{ $quantity }}">
+                        <!-- jumlah -->
+                        <div class="form-group">
+                            <label for="quantity">Jumlah <span class="required">*</span></label>
+                            <input 
+                                type="number" 
+                                id="quantity" 
+                                name="quantity" 
+                                value="{{ old('quantity', 1) }}"
+                                min="1"
+                                max="{{ $product->stock }}"
+                                step="1"
+                                required
+                            >
+                            <small>Maksimal: {{ $product->stock }} pcs</small>
+                            @error('quantity')
+                                <span class="error-message">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-                        <!-- Address -->
+                        <!-- alamat -->
                         <div class="form-group">
                             <label for="address">Alamat Lengkap <span class="required">*</span></label>
                             <textarea 
@@ -92,7 +98,7 @@
                             @enderror
                         </div>
 
-                        <!-- City -->
+                        <!-- kota -->
                         <div class="form-group">
                             <label for="city">Kota <span class="required">*</span></label>
                             <input 
@@ -108,7 +114,7 @@
                             @enderror
                         </div>
 
-                        <!-- Postal Code -->
+                        <!-- kode Pos -->
                         <div class="form-group">
                             <label for="postal_code">Kode Pos <span class="required">*</span></label>
                             <input 
@@ -124,44 +130,34 @@
                             @enderror
                         </div>
 
-                        <!-- Shipping (Courier) -->
+                        <!-- kurir -->
                         <div class="form-group">
                             <label for="shipping">Kurir <span class="required">*</span></label>
                             <select id="shipping" name="shipping" required>
                                 <option value="">Pilih kurir pengiriman</option>
-                                <option value="JNE" {{ old('shipping') == 'JNE' ? 'selected' : '' }}>
-                                    JNE
-                                </option>
-                                <option value="J&T" {{ old('shipping') == 'J&T' ? 'selected' : '' }}>
-                                    J&T Express
-                                </option>
-                                <option value="SiCepat" {{ old('shipping') == 'SiCepat' ? 'selected' : '' }}>
-                                    SiCepat
-                                </option>
-                                <option value="AnterAja" {{ old('shipping') == 'AnterAja' ? 'selected' : '' }}>
-                                    AnterAja
-                                </option>
-                                <option value="Pos Indonesia" {{ old('shipping') == 'Pos Indonesia' ? 'selected' : '' }}>
-                                    Pos Indonesia
-                                </option>
+                                <option value="JNE" {{ old('shipping') == 'JNE' ? 'selected' : '' }}>JNE</option>
+                                <option value="J&T" {{ old('shipping') == 'J&T' ? 'selected' : '' }}>J&T Express</option>
+                                <option value="SiCepat" {{ old('shipping') == 'SiCepat' ? 'selected' : '' }}>SiCepat</option>
+                                <option value="AnterAja" {{ old('shipping') == 'AnterAja' ? 'selected' : '' }}>AnterAja</option>
+                                <option value="Pos Indonesia" {{ old('shipping') == 'Pos Indonesia' ? 'selected' : '' }}>Pos Indonesia</option>
                             </select>
                             @error('shipping')
                                 <span class="error-message">{{ $message }}</span>
                             @enderror
                         </div>
 
-                        <!-- Shipping Type -->
+                        <!-- jenis layanan -->
                         <div class="form-group">
                             <label for="shipping_type">Jenis Layanan <span class="required">*</span></label>
                             <select id="shipping_type" name="shipping_type" required>
                                 <option value="">Pilih jenis layanan</option>
-                                <option value="regular" {{ old('shipping_type') == 'regular' ? 'selected' : '' }}>
+                                <option value="regular" data-cost="10000" {{ old('shipping_type') == 'regular' ? 'selected' : '' }}>
                                     Regular (3-5 hari)
                                 </option>
-                                <option value="express" {{ old('shipping_type') == 'express' ? 'selected' : '' }}>
+                                <option value="express" data-cost="25000" {{ old('shipping_type') == 'express' ? 'selected' : '' }}>
                                     Express (1-2 hari)
                                 </option>
-                                <option value="cargo" {{ old('shipping_type') == 'cargo' ? 'selected' : '' }}>
+                                <option value="cargo" data-cost="15000" {{ old('shipping_type') == 'cargo' ? 'selected' : '' }}>
                                     Cargo (5-7 hari)
                                 </option>
                             </select>
@@ -170,44 +166,27 @@
                             @enderror
                         </div>
 
-                        <!-- Shipping Cost -->
-                        <div class="form-group">
-                            <label for="shipping_cost">Biaya Pengiriman</label>
-                            <input 
-                                type="number" 
-                                id="shipping_cost" 
-                                name="shipping_cost" 
-                                min="0" 
-                                step="1000"
-                                value="{{ old('shipping_cost', 0) }}"
-                                placeholder="0"
-                            >
-                            @error('shipping_cost')
-                                <span class="error-message">{{ $message }}</span>
-                            @enderror
-                            <small>Masukkan biaya pengiriman</small>
-                        </div>
+                        <!-- Hidden shipping cost input -->
+                        <input type="hidden" id="shipping_cost" name="shipping_cost" value="0">
 
                         <!-- Total Summary -->
                         <div class="order-summary">
+                            <h3>Ringkasan Pembayaran</h3>
                             <div class="summary-row">
-                                <span>Subtotal Produk:</span>
-                                <span>Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+                                <span>Subtotal Produk (<span id="qtyDisplay">1</span> item):</span>
+                                <span id="subtotalDisplay">Rp {{ number_format($product->price, 0, ',', '.') }}</span>
                             </div>
-                            <div class="summary-row">
-                                <span>Biaya Pengiriman:</span>
-                                <span id="shippingCostDisplay">Rp 0</span>
-                            </div>
+                            <div class="summary-divider"></div>
                             <div class="summary-row summary-total">
-                                <span>Total:</span>
-                                <span id="totalPriceDisplay">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+                                <span>Total Pembayaran:</span>
+                                <span id="totalPriceDisplay">Rp {{ number_format($product->price, 0, ',', '.') }}</span>
                             </div>
                         </div>
 
                         <!-- Submit Button -->
                         <div class="form-actions">
                             <a href="{{ route('products.show', $product->slug) }}" class="btn btn-secondary">
-                                Kembali
+                                Batal
                             </a>
                             <button type="submit" class="btn btn-primary">
                                 Buat Pesanan
@@ -221,17 +200,58 @@
 
     @push('scripts')
         <script>
-            const subtotal = {{ $subtotal }};
-            const shippingCostInput = document.getElementById('shipping_cost');
-            const shippingCostDisplay = document.getElementById('shippingCostDisplay');
-            const totalPriceDisplay = document.getElementById('totalPriceDisplay');
+            const productPrice = {{ $product->price }};
+            const maxStock = {{ $product->stock }};
 
-            shippingCostInput.addEventListener('input', function() {
-                const shippingCost = parseFloat(this.value) || 0;
+            const qtyInput = document.getElementById('quantity');
+            const shippingTypeSelect = document.getElementById('shipping_type');
+            const shippingSelect = document.getElementById('shipping');
+            qtyInput.addEventListener('input', function() {
+                let value = parseInt(this.value) || 1;
+                
+                if (value < 1) {
+                    this.value = 1;
+                } else if (value > maxStock) {
+                    this.value = maxStock;
+                }
+                
+                calculateTotal();
+            });
+
+            qtyInput.addEventListener('change', function() {
+                let value = parseInt(this.value) || 1;
+                
+                if (value < 1) {
+                    this.value = 1;
+                } else if (value > maxStock) {
+                    this.value = maxStock;
+                }
+                
+                calculateTotal();
+            });
+            shippingSelect.addEventListener('change', function() {
+                shippingTypeSelect.value = '';
+                calculateTotal();
+            });
+            shippingTypeSelect.addEventListener('change', function() {
+                calculateTotal();
+            });
+
+            function calculateTotal() {
+                const quantity = parseInt(qtyInput.value) || 1;
+                const selectedOption = shippingTypeSelect.options[shippingTypeSelect.selectedIndex];
+                const shippingCost = parseInt(selectedOption.getAttribute('data-cost')) || 0;
+
+                const subtotal = productPrice * quantity;
                 const total = subtotal + shippingCost;
-
-                shippingCostDisplay.textContent = 'Rp ' + shippingCost.toLocaleString('id-ID');
-                totalPriceDisplay.textContent = 'Rp ' + total.toLocaleString('id-ID');
+                document.getElementById('qtyDisplay').textContent = quantity;
+                document.getElementById('subtotalDisplay').textContent = 'Rp ' + subtotal.toLocaleString('id-ID');
+                document.getElementById('shippingCostDisplay').textContent = 'Rp ' + shippingCost.toLocaleString('id-ID');
+                document.getElementById('totalPriceDisplay').textContent = 'Rp ' + total.toLocaleString('id-ID');
+                document.getElementById('shipping_cost').value = shippingCost;
+            }
+            document.addEventListener('DOMContentLoaded', function() {
+                calculateTotal();
             });
         </script>
     @endpush

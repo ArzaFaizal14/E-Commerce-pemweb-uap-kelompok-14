@@ -4,12 +4,22 @@
     @endpush
 
     <div class="container">
+        <div class="page-header">
+            <h1>Manajemen Pesanan</h1>
+            <p>Kelola pesanan masuk ke toko Anda</p>
+        </div>
+
         @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
         @endif
 
+        @if(session('error'))
+            <div class="alert alert-error">
+                {{ session('error') }}
+            </div>
+        @endif
 
         <!-- Navigation Tabs -->
         <div class="seller-tabs">
@@ -37,31 +47,28 @@
                     <div class="order-card">
                         <div class="order-header">
                             <div class="order-info">
-                                <h3>{{ $order->transaction_code }}</h3>
+                                <h3>{{ $order->code }}</h3>
                                 <span class="order-date">
                                     {{ $order->created_at->format('d M Y H:i') }}
                                 </span>
                             </div>
                             <div class="order-status">
-                                <span class="status-badge status-{{ $order->status }}">
-                                    @switch($order->status)
+                                <span class="status-badge status-{{ $order->payment_status }}">
+                                    @switch($order->payment_status)
+                                        @case('unpaid')
+                                            Belum Bayar
+                                            @break
                                         @case('pending')
                                             Menunggu Diproses
                                             @break
-                                        @case('processed')
-                                            Diproses
-                                            @break
-                                        @case('shipped')
-                                            Dikirim
-                                            @break
-                                        @case('completed')
-                                            Selesai
+                                        @case('paid')
+                                            Sudah Bayar
                                             @break
                                         @case('cancelled')
                                             Dibatalkan
                                             @break
                                         @default
-                                            {{ ucfirst($order->status) }}
+                                            {{ ucfirst($order->payment_status) }}
                                     @endswitch
                                 </span>
                             </div>
@@ -93,7 +100,7 @@
                                     <div class="item-info">
                                         <h4>{{ $detail->product->name }}</h4>
                                         <div class="item-meta">
-                                            {{ $detail->quantity }} x Rp {{ number_format($detail->price, 0, ',', '.') }}
+                                            {{ $detail->qty }} x Rp {{ number_format($detail->product->price, 0, ',', '.') }}
                                         </div>
                                     </div>
                                     <div class="item-subtotal">
@@ -107,11 +114,11 @@
                         <div class="shipping-info">
                             <div class="shipping-row">
                                 <span class="label">Alamat Pengiriman:</span>
-                                <span class="value">{{ $order->address }}</span>
+                                <span class="value">{{ $order->address }}, {{ $order->city }}, {{ $order->postal_code }}</span>
                             </div>
                             <div class="shipping-row">
-                                <span class="label">Jenis Pengiriman:</span>
-                                <span class="value">{{ ucfirst($order->shipping_type) }}</span>
+                                <span class="label">Kurir:</span>
+                                <span class="value">{{ $order->shipping }} - {{ ucfirst($order->shipping_type) }}</span>
                             </div>
                             @if($order->tracking_number)
                                 <div class="shipping-row">
@@ -123,42 +130,43 @@
 
                         <!-- Order Total -->
                         <div class="order-total">
-                            <span class="label">Total Pesanan:</span>
-                            <span class="value">Rp {{ number_format($order->total_price, 0, ',', '.') }}</span>
+                            <div class="total-row">
+                                <span class="label">
+                                    Subtotal Produk ({{ $order->transactionDetails->sum('qty') }} item):
+                                </span>
+                                <span class="value">
+                                    Rp {{ number_format($order->transactionDetails->sum('subtotal'), 0, ',', '.') }}
+                                </span>
+                            </div>
+                            @if($order->tax > 0)
+                                <div class="total-row">
+                                    <span class="label">Pajak:</span>
+                                    <span class="value">Rp {{ number_format($order->tax, 0, ',', '.') }}</span>
+                                </div>
+                            @endif
+                            <div class="total-divider"></div>
+                            <div class="total-row total-grand">
+                                <span class="label">Total Pesanan:</span>
+                                <span class="value">Rp {{ number_format($order->grand_total, 0, ',', '.') }}</span>
+                            </div>
                         </div>
 
                         <!-- Order Actions -->
                         <div class="order-actions">
-                            <a 
-                                href="{{ route('seller.orders.show', $order->id) }}" 
-                                class="btn btn-secondary btn-sm"
-                            >
-                                Lihat Detail
-                            </a>
-
-                            @if($order->status === 'pending')
+                            @if($order->payment_status === 'paid')
                                 <form 
                                     method="POST" 
-                                    action="{{ route('seller.orders.status.update', $order->id) }}"
+                                    action="{{ route('seller.orders.updateStatus', $order->id) }}"
                                     style="display: inline;"
+                                    onsubmit="return confirm('Barang akan dikirim');"
                                 >
                                     @csrf
-                                    @method('PUT')
+                                    @method('PATCH')
                                     <input type="hidden" name="status" value="processed">
                                     <button type="submit" class="btn btn-primary btn-sm">
-                                        Proses Pesanan
+                                        Proses Pengiriman
                                     </button>
                                 </form>
-                            @endif
-
-                            @if($order->status === 'processed')
-                                <button 
-                                    type="button" 
-                                    class="btn btn-primary btn-sm"
-                                    onclick="showTrackingModal({{ $order->id }})"
-                                >
-                                    Kirim Pesanan
-                                </button>
                             @endif
                         </div>
                     </div>
@@ -177,62 +185,18 @@
         </div>
     </div>
 
-    <!-- Tracking Number Modal -->
-    <div id="trackingModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Input Nomor Resi</h2>
-                <span class="modal-close" onclick="closeTrackingModal()">&times;</span>
-            </div>
-            <form id="trackingForm" method="POST">
-                @csrf
-                @method('PUT')
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="tracking_number">Nomor Resi <span class="required">*</span></label>
-                        <input 
-                            type="text" 
-                            id="tracking_number" 
-                            name="tracking_number" 
-                            required
-                            placeholder="Masukkan nomor resi pengiriman"
-                        >
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="closeTrackingModal()">
-                        Batal
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        Kirim Pesanan
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     @push('scripts')
         <script>
-            function showTrackingModal(orderId) {
-                const modal = document.getElementById('trackingModal');
-                const form = document.getElementById('trackingForm');
-                form.action = `/seller/orders/${orderId}/tracking`;
-                modal.style.display = 'flex';
-            }
-
-            function closeTrackingModal() {
-                const modal = document.getElementById('trackingModal');
-                modal.style.display = 'none';
-                document.getElementById('tracking_number').value = '';
-            }
-
-            // Close modal when clicking outside
-            window.onclick = function(event) {
-                const modal = document.getElementById('trackingModal');
-                if (event.target === modal) {
-                    closeTrackingModal();
-                }
-            }
+            document.addEventListener('DOMContentLoaded', function() {
+                const alerts = document.querySelectorAll('.alert');
+                alerts.forEach(alert => {
+                    setTimeout(() => {
+                        alert.style.transition = 'opacity 0.3s';
+                        alert.style.opacity = '0';
+                        setTimeout(() => alert.remove(), 300);
+                    }, 5000);
+                });
+            });
         </script>
     @endpush
 </x-app-layout>

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
 {
@@ -16,7 +18,7 @@ class TransactionController extends Controller
 
         $transactions = Transaction::with([
                 'store',
-                'transactionDetails.product',
+                'transactionDetails.product.productImages',
             ])
             ->where('buyer_id', $buyer->id)  // ownership check
             ->orderBy('created_at', 'desc')
@@ -34,12 +36,41 @@ class TransactionController extends Controller
 
         $transaction = Transaction::with([
                 'store',
-                'transactionDetails.product',
+                'transactionDetails.product.productImages',
             ])
             ->where('code', $code)
             ->where('buyer_id', $buyer->id) // ownership check
             ->firstOrFail();
 
         return view('riwayat_detail', compact('transaction'));
+    }
+
+    /**
+     * Bayar transaksi - update status dari unpaid ke paid
+     */
+    public function pay(Transaction $transaction)
+    {
+        $buyer = Auth::user()->buyer;
+
+        // Ownership check
+        if ($transaction->buyer_id !== $buyer->id) {
+            abort(403, 'Anda tidak berhak membayar transaksi ini.');
+        }
+
+        // Hanya bisa bayar jika status unpaid
+        if ($transaction->payment_status !== 'unpaid') {
+            return redirect()
+                ->route('transactions.index')
+                ->with('error', 'Transaksi ini tidak dapat dibayar.');
+        }
+
+        // Update status menjadi paid
+        $transaction->update([
+            'payment_status' => 'paid'
+        ]);
+
+        return redirect()
+            ->route('transactions.index')
+            ->with('success', 'Pembayaran berhasil! Pesanan Anda akan segera diproses oleh penjual.');
     }
 }

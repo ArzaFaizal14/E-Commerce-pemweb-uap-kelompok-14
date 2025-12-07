@@ -10,8 +10,8 @@
     --primary: #111827;
     --accent: #2563eb;
     --success: #16a34a;
-    --warning: #f59e0b;
     --danger: #dc2626;
+    --radius-xl: 22px;
     --radius-lg: 18px;
     --radius-md: 12px;
     --radius-pill: 999px;
@@ -45,7 +45,7 @@ body {
 }
 
 .alert {
-    margin: 0.5rem 0 1rem;
+    margin: 0.6rem 0 0.7rem;
     padding: 0.9rem 1rem;
     border-radius: var(--radius-md);
     font-size: 0.9rem;
@@ -59,14 +59,272 @@ body {
     color: #166534;
 }
 
+.alert-error {
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: #b91c1c;
+}
+
+.transactions-container {
+    margin-top: 0.5rem;
+}
+
+.transaction-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-soft);
+    padding: 1.1rem 1.2rem 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.transaction-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.8rem;
+    margin-bottom: 0.6rem;
+}
+
+.transaction-info h3 {
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 0.1rem;
+}
+
+.transaction-date {
+    font-size: 0.8rem;
+    color: var(--text-soft);
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.7rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.76rem;
+    font-weight: 500;
+}
+
+.status-unpaid {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-pending {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.status-paid {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.status-cancelled {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.status-refunded {
+    background: #ede9fe;
+    color: #6d28d9;
+}
+
+.transaction-store {
+    border-radius: 14px;
+    background: #f9fafb;
+    padding: 0.55rem 0.7rem;
+    margin-bottom: 0.7rem;
+    border: 1px dashed var(--border-subtle);
+    font-size: 0.86rem;
+}
+
+.store-info-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-bottom: 0.15rem;
+}
+
+.store-label {
+    color: var(--text-soft);
+    min-width: 80px;
+}
+
+.store-name {
+    color: var(--text-main);
+    font-weight: 500;
+}
+
+.tracking-number {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.82rem;
+    color: var(--text-main);
+}
+
+.transaction-details {
+    border-radius: 16px;
+    background: var(--bg-subtle);
+    padding: 0.65rem 0.7rem;
+    margin-bottom: 0.75rem;
+}
+
+.detail-item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1.5fr) auto;
+    gap: 0.6rem;
+    align-items: center;
+    padding: 0.45rem 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.detail-product-image img,
+.detail-product-image .no-image {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    object-fit: cover;
+    border: 1px solid var(--border-subtle);
+    background: #f9fafb;
+}
+
+.no-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    color: var(--text-soft);
+}
+
+.detail-product-info h4 {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-main);
+    margin-bottom: 0.1rem;
+}
+
+.detail-meta {
+    font-size: 0.82rem;
+    color: var(--text-soft);
+}
+
+.meta-qty {
+    margin-right: 0.15rem;
+}
+
+.meta-price {
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.detail-subtotal {
+    text-align: right;
+    font-size: 0.82rem;
+}
+
+.subtotal-label {
+    display: block;
+    color: var(--text-soft);
+}
+
+.subtotal-value {
+    display: block;
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+.transaction-shipping {
+    margin-top: 0.1rem;
+    margin-bottom: 0.75rem;
+}
+
+.transaction-shipping h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 0.3rem;
+}
+
+.shipping-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    gap: 0.5rem 0.9rem;
+    font-size: 0.84rem;
+}
+
+.shipping-item {
+    display: flex;
+    gap: 0.35rem;
+    align-items: flex-start;
+}
+
+.shipping-label {
+    color: var(--text-soft);
+    min-width: 60px;
+}
+
+.shipping-value {
+    color: var(--text-main);
+}
+
+.transaction-summary {
+    margin-top: 0.2rem;
+    margin-bottom: 0.7rem;
+}
+
+.transaction-summary h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 0.35rem;
+}
+
+.summary-grid {
+    border-radius: 16px;
+    border: 1px solid var(--border-subtle);
+    background: #f9fafb;
+    padding: 0.75rem 0.85rem 0.85rem;
+    font-size: 0.86rem;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.6rem;
+    margin-bottom: 0.25rem;
+    color: var(--text-main);
+}
+
+.summary-divider {
+    border-top: 1px dashed var(--border-subtle);
+    margin: 0.4rem 0 0.35rem;
+}
+
+.summary-total span:last-child {
+    font-weight: 600;
+}
+
+.transaction-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: flex-end;
+}
+
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.55rem 1.15rem;
+    padding: 0.5rem 1.1rem;
     border-radius: var(--radius-pill);
     border: 1px solid transparent;
-    font-size: 0.9rem;
+    font-size: 0.86rem;
     font-weight: 500;
     cursor: pointer;
     text-decoration: none;
@@ -84,214 +342,34 @@ body {
     border-color: #020617;
 }
 
-.btn-secondary {
-    background: #ffffff;
-    color: var(--text-main);
-    border-color: var(--border-strong);
-}
-
-.btn-secondary:hover {
-    background: #f9fafb;
-}
-
-.transactions-container {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.transaction-card {
-    background: var(--bg-card);
-    border-radius: var(--radius-lg);
-    padding: 1.25rem 1.35rem 1.4rem;
-    border: 1px solid var(--border-subtle);
-    box-shadow: var(--shadow-soft);
-}
-
-.transaction-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
-    margin-bottom: 0.6rem;
-}
-
-.transaction-info h3 {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text-main);
-    margin-bottom: 0.2rem;
-}
-
-.transaction-date {
-    font-size: 0.8rem;
-    color: var(--text-soft);
-}
-
-.transaction-status {
-    text-align: right;
-}
-
-.status-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.25rem 0.7rem;
-    border-radius: var(--radius-pill);
-    font-size: 0.78rem;
-    font-weight: 500;
-}
-
-.status-pending {
-    background: #fef3c7;
-    color: #92400e;
-}
-
-.status-processed {
-    background: #e0f2fe;
-    color: #075985;
-}
-
-.status-shipped {
-    background: #eef2ff;
-    color: #3730a3;
-}
-
-.status-completed {
-    background: #ecfdf3;
-    color: #166534;
-}
-
-.status-cancelled {
+.btn-danger {
     background: #fee2e2;
     color: #b91c1c;
+    border-color: #fecaca;
 }
 
-.transaction-store {
-    font-size: 0.88rem;
-    color: var(--text-main);
-    margin-bottom: 0.6rem;
-}
-
-.store-label {
-    color: var(--text-soft);
-    margin-right: 0.25rem;
-}
-
-.store-name {
-    font-weight: 500;
-}
-
-.transaction-details {
-    border-radius: var(--radius-md);
-    background: var(--bg-subtle);
-    padding: 0.7rem 0.8rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.55rem;
-    margin-bottom: 0.8rem;
-}
-
-.detail-item {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 0.6rem;
-    align-items: center;
-}
-
-.detail-product-image img {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    object-fit: cover;
-    border: 1px solid var(--border-subtle);
-    background: #e5e7eb;
-}
-
-.detail-product-info h4 {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--text-main);
-}
-
-.detail-meta {
-    font-size: 0.8rem;
-    color: var(--text-soft);
-}
-
-.detail-subtotal {
-    font-size: 0.88rem;
-    font-weight: 600;
-    color: var(--text-main);
-}
-
-.transaction-shipping {
-    margin-top: 0.4rem;
-    padding-top: 0.6rem;
-    border-top: 1px dashed var(--border-subtle);
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-    font-size: 0.85rem;
-}
-
-.shipping-item {
-    display: flex;
-    gap: 0.4rem;
-}
-
-.shipping-label {
-    color: var(--text-soft);
-    min-width: 120px;
-}
-
-.shipping-value {
-    color: var(--text-main);
-}
-
-.tracking-number {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    font-size: 0.82rem;
-}
-
-.transaction-summary {
-    margin-top: 0.7rem;
-    padding-top: 0.6rem;
-    border-top: 1px solid #f3f4f6;
-    font-size: 0.88rem;
-}
-
-.summary-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.15rem;
-    color: var(--text-main);
-}
-
-.summary-total span:first-child {
-    font-weight: 500;
-}
-
-.summary-total span:last-child {
-    font-weight: 600;
-}
-
-.transaction-actions {
-    margin-top: 0.8rem;
-    display: flex;
-    justify-content: flex-end;
+.btn-danger:hover {
+    background: #fecaca;
+    border-color: #fca5a5;
 }
 
 .pagination-wrapper {
-    margin-top: 1.3rem;
+    margin-top: 1.1rem;
 }
 
 .empty-state {
-    padding: 2.1rem 1.5rem;
+    margin-top: 1.2rem;
+    padding: 2rem 1.5rem;
     text-align: center;
     background: var(--bg-card);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-xl);
     border: 1px solid var(--border-subtle);
     box-shadow: var(--shadow-soft);
+}
+
+.empty-icon {
+    font-size: 2rem;
+    margin-bottom: 0.4rem;
 }
 
 .empty-state h3 {
@@ -307,29 +385,13 @@ body {
     margin-bottom: 0.8rem;
 }
 
-@media (max-width: 768px) {
-    .transaction-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+.empty-state .btn-primary {
+    min-width: 150px;
+}
 
-    .transaction-details {
-        padding: 0.6rem;
-    }
-
-    .detail-item {
-        grid-template-columns: auto 1fr;
-        grid-template-rows: auto auto;
-    }
-
-    .detail-subtotal {
-        grid-column: 1 / -1;
-        justify-self: flex-end;
-    }
-
-    .transaction-actions {
-        justify-content: flex-start;
-        margin-top: 0.7rem;
+@media (max-width: 900px) {
+    .shipping-grid {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -339,7 +401,28 @@ body {
     }
 
     .transaction-card {
-        padding: 1.05rem 1.1rem 1.2rem;
+        padding: 1.1rem 1.05rem 1.2rem;
+    }
+
+    .transaction-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+    }
+
+    .detail-item {
+        grid-template-columns: auto minmax(0, 1.2fr);
+        grid-template-rows: auto auto;
+    }
+
+    .detail-subtotal {
+        grid-column: 1 / -1;
+        text-align: right;
+        padding-right: 0.2rem;
+    }
+
+    .transaction-actions {
+        justify-content: flex-start;
     }
 
     .empty-state .btn-primary {

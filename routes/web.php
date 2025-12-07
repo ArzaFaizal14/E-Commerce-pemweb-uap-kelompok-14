@@ -105,20 +105,23 @@ Route::middleware(['auth', 'role:member'])->group(function () {
     */
 
     Route::middleware('buyer.profile')->group(function () {
+    // Riwayat transaksi buyer
+    Route::get('/transactions', [TransactionController::class, 'index'])
+        ->name('transactions.index');
 
-        // Riwayat transaksi buyer
-        Route::get('/transactions', [TransactionController::class, 'index'])
-            ->name('transactions.index');
+    Route::get('/transactions/{code}', [TransactionController::class, 'show'])
+        ->name('transactions.show');
 
-        Route::get('/transactions/{code}', [TransactionController::class, 'show'])
-            ->name('transactions.show');
+    // Pay transaction
+    Route::post('/transactions/{transaction}/pay', [TransactionController::class, 'pay'])
+        ->name('transactions.pay');
 
-        // Checkout (1 produk)
-        Route::get('/products/{product}/checkout', [CheckoutController::class, 'create'])
-            ->name('checkout.create');
+    // Checkout (1 produk)
+    Route::get('/products/{product}/checkout', [CheckoutController::class, 'create'])
+        ->name('checkout.create');
 
-        Route::post('/products/{product}/checkout', [CheckoutController::class, 'store'])
-            ->name('checkout.store');
+    Route::post('/products/{product}/checkout', [CheckoutController::class, 'store'])
+        ->name('checkout.store');
     });
 
     /*
