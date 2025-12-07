@@ -39,7 +39,7 @@ class SellerProductController extends Controller
             ->latest()
             ->paginate(10);
 
-        return view('store_product', compact('store', 'products'));
+        return view('seller.store_product', compact('store', 'products'));
     }
 
     /**
@@ -219,7 +219,7 @@ class SellerProductController extends Controller
 
         $images = $product->productImages;
 
-        return view('seller.products.images', compact('product', 'images'));
+        return view('seller.image.images', compact('product', 'images'));
     }
 
     /**

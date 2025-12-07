@@ -23,7 +23,7 @@ class StoreRegistrationController extends Controller
                 ->with('info', 'Anda sudah memiliki toko.');
         }
 
-        return view('store_registration');
+        return view('seller.store_registration');
     }
 
     /**

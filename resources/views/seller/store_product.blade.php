@@ -119,9 +119,7 @@
                                     <td>
                                         <div class="product-cell">
                                             @php
-                                                $thumbnail = $product->productImages
-                                                    ->where('is_thumbnail', true)->first() 
-                                                    ?? $product->productImages->first();
+                                                $thumbnail = $product->productImages->first();
                                             @endphp
                                             
                                             @if($thumbnail)
@@ -155,14 +153,14 @@
                                                 class="btn-action btn-images"
                                                 title="Kelola Gambar"
                                             >
-                                                🖼️
+                                                ⛶
                                             </a>
                                             <a 
                                                 href="{{ route('seller.products.edit', $product->id) }}" 
                                                 class="btn-action btn-edit"
                                                 title="Edit"
                                             >
-                                                ✏️
+                                                ✐
                                             </a>
                                             <form 
                                                 method="POST" 
@@ -177,7 +175,7 @@
                                                     class="btn-action btn-delete"
                                                     title="Hapus"
                                                 >
-                                                    🗑️
+                                                    X
                                                 </button>
                                             </form>
                                         </div>

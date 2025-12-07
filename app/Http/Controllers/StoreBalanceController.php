@@ -34,6 +34,6 @@ class StoreBalanceController extends Controller
 
         $histories = $historiesQuery->paginate(10);
 
-        return view('store_balance', compact('store', 'balance', 'histories'));
+        return view('seller.store_balance', compact('store', 'balance', 'histories'));
     }
 }

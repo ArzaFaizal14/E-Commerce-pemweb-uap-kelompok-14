@@ -104,9 +104,9 @@
                                     <!-- Product Image -->
                                     <div class="product-image">
                                         @php
-                                            $thumbnail = $product->productImages->where('is_thumbnail', true)->first() 
-                                                      ?? $product->productImages->first();
+                                            $thumbnail = $product->productImages->first();
                                         @endphp
+
                                         
                                         @if($thumbnail)
                                             <img 

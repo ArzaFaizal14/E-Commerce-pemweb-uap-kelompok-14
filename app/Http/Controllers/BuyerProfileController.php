@@ -23,7 +23,7 @@ class BuyerProfileController extends Controller
                 ->with('info', 'Profil pembeli Anda sudah lengkap.');
         }
 
-        return view('buyer_profile_create', compact('user'));
+        return view('buyer.buyer_profile_create', compact('user'));
     }
 
     /**
@@ -73,7 +73,7 @@ class BuyerProfileController extends Controller
         // Kalau belum punya buyer, redirect ke create
         if (!$buyer) {
             return redirect()
-                ->route('buyer.profile.create')
+                ->route('buyer.buyer.profile.create')
                 ->with('warning', 'Silakan buat profil pembeli terlebih dahulu.');
         }
 

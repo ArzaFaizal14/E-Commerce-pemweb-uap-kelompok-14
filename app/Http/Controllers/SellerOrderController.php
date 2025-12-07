@@ -24,7 +24,7 @@ class SellerOrderController extends Controller
             ->latest()
             ->paginate(10);
 
-        return view('order_management', compact('orders', 'store'));
+        return view('seller.order_management', compact('orders', 'store'));
     }
 
     /**
@@ -42,7 +42,7 @@ class SellerOrderController extends Controller
 
         $transaction->load(['buyer', 'transactionDetails.product']);
 
-        return view('order_detail', compact('transaction'));
+        return view('seller.order_detail', compact('transaction'));
     }
 
     /**

@@ -16,7 +16,7 @@ class StoreProfileController extends Controller
         // Dengan middleware seller.verified, kita bisa percaya store pasti ada & verified
         $store = Auth::user()->store;
 
-        return view('store_profile', compact('store'));
+        return view('seller.store_profile', compact('store'));
     }
 
     /**

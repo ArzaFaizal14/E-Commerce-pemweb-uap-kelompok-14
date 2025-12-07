@@ -37,7 +37,7 @@ class WithdrawalController extends Controller
             ->latest()
             ->first();
 
-        return view('store_withdrawal', [
+        return view('seller.store_withdrawal', [
             'store'          => $store,
             'balance'        => $balance,
             'withdrawals'    => $withdrawals,
